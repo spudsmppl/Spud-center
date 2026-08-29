@@ -1,12 +1,31 @@
 import axios, { AxiosInstance } from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Get API URL from environment or use default
+const getAPIUrl = () => {
+  // For Cloudflare Pages and other deployments
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // Fallback to current origin if in production (for same-origin API)
+  if (!import.meta.env.DEV) {
+    return `${window.location.origin}/api`;
+  }
+  
+  // Default for local development
+  return 'http://localhost:5000/api';
+};
+
+const API_URL = getAPIUrl();
+
+console.log('[API Client] Using API URL:', API_URL);
 
 const client: AxiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 30000, // 30 second timeout
 });
 
 // Add token to requests
@@ -27,6 +46,9 @@ client.interceptors.response.use(
       localStorage.removeItem('user');
       window.location.href = '/login';
     }
+    
+    // Log errors for debugging
+    console.error('[API Error]', error.message, error.response?.data);
     return Promise.reject(error);
   }
 );
@@ -60,4 +82,6 @@ export const previewAPI = {
   getLive: (id: string) => client.get(`/preview/${id}/live`),
 };
 
+// Export client for advanced usage
 export default client;
+export { API_URL };

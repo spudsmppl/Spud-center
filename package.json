@@ -12,12 +12,19 @@
     "build:frontend": "cd frontend && npm run build",
     "start": "node backend/dist/index.js",
     "docker-build": "docker build -t spud-center .",
-    "docker-run": "docker run -p 3000:3000 -p 5000:5000 spud-center"
+    "docker-run": "docker run -p 3000:3000 -p 5000:5000 spud-center",
+    "cloudflare:deploy": "npm run build:frontend",
+    "build:sdk": "cd sdk && npm run build"
   },
   "dependencies": {
     "concurrently": "^8.0.0"
   },
   "devDependencies": {},
+  "workspaces": [
+    "backend",
+    "frontend",
+    "sdk"
+  ],
   "keywords": ["control-center", "api", "monitoring"],
   "author": "SpudCenter",
   "license": "MIT"

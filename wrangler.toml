@@ -1,0 +1,24 @@
+name = "spud-center"
+type = "javascript"
+account_id = ""
+workers_dev = true
+routes = []
+zone_id = ""
+
+# Build configuration for Pages
+[build]
+command = "cd frontend && npm install && npm run build"
+cwd = "./frontend"
+watch_paths = ["frontend/src/**/*.{ts,tsx,css}"]
+
+# Environment variables for Cloudflare Pages
+[env.production]
+vars = { VITE_API_URL = "https://api.yourdomain.com" }
+
+[env.preview]
+vars = { VITE_API_URL = "http://localhost:5000/api" }
+
+# Routes and redirects for SPA
+[[routes]]
+pattern = "example.com/subdir/*"
+zone_name = "example.com"

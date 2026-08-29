@@ -1,0 +1,14 @@
+{
+  "name": "spud-center-sdk",
+  "version": "1.0.0",
+  "description": "SDK for Spud Center API",
+  "main": "index.js",
+  "types": "SpudCenterSDK.ts",
+  "files": ["SpudCenterSDK.ts", "index.js"],
+  "scripts": {
+    "build": "tsc SpudCenterSDK.ts --declaration --outDir dist"
+  },
+  "keywords": ["spud-center", "api", "sdk"],
+  "author": "",
+  "license": "MIT"
+}
